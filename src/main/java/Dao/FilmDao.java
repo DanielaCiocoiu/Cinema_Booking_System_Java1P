@@ -21,19 +21,19 @@ public class FilmDao {
 
         try {
             createStatement =
-                    connection.prepareStatement("INSERT INTO film VALUES (null, ?, ?)");
+                    connection.prepareStatement("INSERT INTO filme VALUES (null, ?, ?)");
 
             findByPersoanaStatement =
-                    connection.prepareStatement("SELECT * FROM film WHERE persoana_id = ?");
+                    connection.prepareStatement("SELECT * FROM filme WHERE persoana_id = ?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-public boolean create(Film film){
+public boolean create(Film filme){
     try {
-        createStatement.setString(1, film.getNume());
-        createStatement.setInt(2, film.getPersoanaId());
+        createStatement.setString(1, filme.getNume());
+        createStatement.setInt(2, filme.getPersoanaId());
 
         return createStatement.executeUpdate() != 0;
     } catch (SQLException e) {
