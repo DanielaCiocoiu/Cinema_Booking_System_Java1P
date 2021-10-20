@@ -1,7 +1,7 @@
 package Controller;
 
-import Dao.FilmDao;
-import Model.Film;
+import Dao.FilmeDao;
+import Model.Filme;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ public class FilmeController {
         public static final FilmeController INSTANCE = new FilmeController();
     }
 
-    private FilmDao filmDao;
+    private FilmeDao filmDao;
 
     private FilmeController() {
-        filmDao = new FilmDao(
+        filmDao = new FilmeDao(
                 ConnectionManager.getInstance().getConnection()
         );
     }
@@ -23,11 +23,17 @@ public class FilmeController {
         return SingletonHolder.INSTANCE;
     }
 
-    public List<Film> findByPersoana(int persoanaId) {
+    public List<Filme> findByPersoana(int persoanaId) {
         return filmDao.findByPersoana(persoanaId);
     }
 
-    public boolean create(Film  film) {
+    public boolean create(Filme film) {
         return filmDao.create(film);
     }
+
+    public boolean delete(int idFilm) {
+        return filmDao.delete(idFilm);
+    }
+
+
 }

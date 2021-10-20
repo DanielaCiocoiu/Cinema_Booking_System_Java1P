@@ -1,10 +1,11 @@
 package Main;
 
-import Gui.PersoanaFrame;
+import Gui.FilmeFrame;
+import Gui.PersoaneFrame;
 
 public class Main {
     public static void main(String[] args) {
-        new PersoanaFrame();
+        new PersoaneFrame();
     }
 }
 

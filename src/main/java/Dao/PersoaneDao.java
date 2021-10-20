@@ -1,6 +1,6 @@
 package Dao;
 
-import Model.Persoana;
+import Model.Persoane;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,43 +10,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PersoanaDao {
-    //executa comenzile pe db
+public class PersoaneDao {
+    //execut comenzile pe db
     private Connection connection;
     private PreparedStatement createStatement;
     private PreparedStatement findAllStatement;
     private PreparedStatement findByNumeStatement;
     private PreparedStatement deleteStatement;
 
-    //ctor care primeste conexiunea
-    public PersoanaDao(Connection connection) {
+    public PersoaneDao(Connection connection) {
         //primesc conexiunea ca parametru
         this.connection = connection;
         //instantiez statementul
         try {
             createStatement =
-                    connection.prepareStatement("INSERT INTO persoana VALUES (null, ?)");
+                    connection.prepareStatement("INSERT INTO persoane VALUES (null, ?,?) ");
 
             findAllStatement =
-                    connection.prepareStatement("SELECT * FROM persoana ");
+                    connection.prepareStatement("SELECT * FROM persoane ");
 
             findByNumeStatement =
-                    connection.prepareStatement("SELECT * FROM persoana WHERE nume = ?");
-
+                    connection.prepareStatement("SELECT * FROM persoane WHERE nume_persoana = ? and password = ? ");
             deleteStatement =
-                    connection.prepareStatement("DELETE FROM persoana WHERE id = ?");
+                    connection.prepareStatement("DELETE FROM persoane WHERE id_pers = ?");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-       // INSERT INTO `company` (`name`, `group`) VALUES (?, ?)
     }
 
-    public boolean create(Persoana p) {
+    public boolean create(Persoane p) {
         //indexarea parametrilor (?) incepe de la 1
         try {
             createStatement.setString(1, p.getNume());
+            createStatement.setString(2, p.getPassword());
             //returneaza un int, nr de inregistrari modificate
          return createStatement.executeUpdate() !=0;
         } catch (SQLException e) {
@@ -55,15 +51,16 @@ public class PersoanaDao {
         return false;
     }
 
-    public List<Persoana> findAll() {
-        List<Persoana> persoane = new ArrayList<>();
+    public List<Persoane> findAll() {
+        List<Persoane> persoane = new ArrayList<>();
         try {
             ResultSet rs = findAllStatement.executeQuery();
 
             while (rs.next()) {
-                Persoana p = new Persoana(
-                        rs.getInt("id"),
-                        rs.getString("nume")
+                Persoane p = new Persoane(
+                        rs.getInt("id_pers"),
+                        rs.getString("nume_persoana"),
+                        rs.getString("password")
                 );
                 persoane.add(p);
             }
@@ -73,14 +70,15 @@ public class PersoanaDao {
         return persoane;
     }
 
-    public Optional<Persoana> findByNume(String nume) {
+    public Optional<Persoane> findByNume(Persoane persoane) {
         try {
-            findByNumeStatement.setString(1, nume);
+            findByNumeStatement.setString(1, persoane.getNume());
+            findByNumeStatement.setString(2, persoane.getPassword());
             ResultSet rs = findByNumeStatement.executeQuery(); //citesc, fac un read, nu modific baza de date
             if (rs.next()) {
-                return Optional.of(new Persoana(
-                                rs.getInt("id"),
-                                rs.getString("nume")
+                return Optional.of(new Persoane(
+                                rs.getString("nume_persoana"),
+                                rs.getString("password")
                         )
                 );
             }
@@ -91,7 +89,6 @@ public class PersoanaDao {
     }
 
     public boolean delete(int id) {
-
         try {
             deleteStatement.setInt(1, id);
             return deleteStatement.executeUpdate() != 0;// fac scrieri in baza de date
