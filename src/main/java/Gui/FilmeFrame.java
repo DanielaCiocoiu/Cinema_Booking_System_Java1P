@@ -5,9 +5,6 @@ import Model.Filme;
 import Model.Persoane;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FilmeFrame extends JFrame {
@@ -34,9 +31,9 @@ public class FilmeFrame extends JFrame {
         model = new DefaultListModel<>();
         listaFilme.setModel(model);
 
-       afiseazaFilm();
+       displayFilm();
 
-        rezervareButton.addActionListener(ev -> adaugaFilm());
+        rezervareButton.addActionListener(ev -> addFilm());
 
         comboSala.addItem(1);
         comboSala.addItem(2);
@@ -50,7 +47,7 @@ public class FilmeFrame extends JFrame {
         comboSala.setSelectedItem(1);
 
 
-        setTitle("Rezervari");
+        setTitle("Booking");
         setContentPane(mainPanel);
         pack();
         setSize(500, 600);
@@ -59,7 +56,7 @@ public class FilmeFrame extends JFrame {
 
     }
 
-    protected void adaugaFilm() {
+    protected void addFilm() {
         String nume = filmField.getText();
         String salaNr = String.valueOf(comboSala.getSelectedItem());
         Filme film = new Filme(
@@ -67,15 +64,15 @@ public class FilmeFrame extends JFrame {
 
         boolean rez = FilmeController.getInstance().create(film);
         if (rez) {
-            afiseazaFilm();
+            displayFilm();
         } else {
-            JOptionPane.showMessageDialog(null, "Eroare");
+            JOptionPane.showMessageDialog(null, "Error");
         }
 
         filmField.setText("");
     }
 
-    private void afiseazaFilm() {
+    private void displayFilm() {
             List<Filme> film = FilmeController.getInstance().findByPersoana(persoane.getId());
             model.clear();
             film.forEach(model::addElement);

@@ -11,10 +11,10 @@ import java.util.List;
 
 public class PersoaneFrame extends JFrame {
 
-    private JList listaPersoane;
+    private JList PersonsList;
     private JPanel mainPanel;
-    private JTextField adauga;
-    private JButton adaugaButton;
+    private JTextField addText;
+    private JButton addButton;
     private JButton loginButton;
     private JTextField usernameField;
     private JLabel usernameLabel;
@@ -25,7 +25,7 @@ public class PersoaneFrame extends JFrame {
     public PersoaneFrame() {
 
         model = new DefaultListModel<>();
-        listaPersoane.setModel(model);
+        PersonsList.setModel(model);
 
 /*       verifică dacă ȋn baza de date este o ȋntregistrare cu usernameul
         și parola introduse. Dacă persoana exista se deschide o fereastra de tip
@@ -34,21 +34,21 @@ public class PersoaneFrame extends JFrame {
 
 
         //adăuga o nouă persoană ȋn baza de date.
-        adaugaButton.addActionListener(ev -> adaugaPersoana());
+        addButton.addActionListener(ev -> addPerson());
 
-        listaPersoane.addMouseListener(new MouseAdapter() {
+        PersonsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 onMouseClickedForList(e);
             }
         });
-        afisPersoane();
+        displayPersons();
         setContentPane(mainPanel);
         pack();
         setSize(700, 700);
         setLocationRelativeTo(null);
         setVisible(true);
-        setTitle("Persoana");
+        setTitle("Person");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -58,11 +58,11 @@ public class PersoaneFrame extends JFrame {
 /*        String nume = usernameField.getText();
         String password = passwordField.getText();*/
 
-        boolean isItemSelected = listaPersoane.getSelectedValue() != null;
+        boolean isItemSelected = PersonsList.getSelectedValue() != null;
         if (isItemSelected &&
                 e.getButton() == MouseEvent.BUTTON1 &&
                 e.getClickCount() == 2) {
-            Persoane selected = (Persoane) listaPersoane.getSelectedValue();
+            Persoane selected = (Persoane) PersonsList.getSelectedValue();
             new FilmeFrame(selected);
 /*            if (authenticateUser(nume, password) && isDigit(password) && verificPersoane(nume)) {
                 afisPersoane();
@@ -73,31 +73,31 @@ public class PersoaneFrame extends JFrame {
         if (isItemSelected &&
                 e.getButton() == MouseEvent.BUTTON3 &&
                 e.getClickCount() == 2) {
-            Persoane selected = (Persoane) listaPersoane.getSelectedValue();
+            Persoane selected = (Persoane) PersonsList.getSelectedValue();
             boolean rez = PersoaneController.getInstance()
                     .delete(selected.getId());
             if (rez) { //update lista
-                afisPersoane();
+                displayPersons();
             }
         }
     }
 
-    protected void afisPersoane() {
+    protected void displayPersons() {
         List<Persoane> persoane = PersoaneController.getInstance().findAll();
         model.clear();
         persoane.forEach(model::addElement); //sau p -> model.addElement(p)
     }
 
-    protected void adaugaPersoana() {
-        String nume = adauga.getText();
-        String password = adauga.getText();
+    protected void addPerson() {
+        String nume = addText.getText();
+        String password = addText.getText();
         Persoane p = new Persoane(0, nume, password);
         boolean rez = PersoaneController.getInstance().create(p);
         if (rez) {
-            afisPersoane();
+            displayPersons();
         } else {
-            JOptionPane.showMessageDialog(null, "Numele exista deja!");
-            adauga.setText("");
+            JOptionPane.showMessageDialog(null, "Name already exist!");
+            addText.setText("");
         }
     }
 
@@ -109,18 +109,17 @@ public class PersoaneFrame extends JFrame {
 
     private void configureLoginButton() {
         loginButton.addActionListener(e -> {
-            Persoane selected = (Persoane) listaPersoane.getSelectedValue();
+            Persoane selected = (Persoane) PersonsList.getSelectedValue();
 
             String nume = usernameField.getText();
             String password = passwordField.getText();
 
-            if (authenticateUser(nume, password) && isDigit(password) && verificPersoane(nume)) {
+            if (authenticateUser(nume, password) && isDigit(password) && checkPerson(nume)) {
 
               new FilmeFrame(selected).setVisible(true);
 
-
                 } else {
-                JOptionPane.showMessageDialog(null, "Credentiale invalide", "Mesaj", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid credentials", "Mesaj", JOptionPane.ERROR_MESSAGE);
                 passwordField.setText("");
 
             }
@@ -147,11 +146,11 @@ public class PersoaneFrame extends JFrame {
         return numberPresent;
     }
 
-    static boolean verificPersoane(String nume) {
+    static boolean checkPerson(String nume) {
         boolean numberPresent = false;
         List<Persoane> persoane = PersoaneController.getInstance().findAll();
         for (Persoane persoane1 : persoane) {
-            if (persoane1.getNume().equalsIgnoreCase(nume)) {
+            if (persoane1.getName().equalsIgnoreCase(nume)) {
 
                 numberPresent = true;
             }

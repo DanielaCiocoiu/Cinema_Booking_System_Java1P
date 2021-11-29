@@ -41,7 +41,7 @@ public class PersoaneDao {
     public boolean create(Persoane p) {
         //indexarea parametrilor (?) incepe de la 1
         try {
-            createStatement.setString(1, p.getNume());
+            createStatement.setString(1, p.getName());
             createStatement.setString(2, p.getPassword());
             //returneaza un int, nr de inregistrari modificate
          return createStatement.executeUpdate() !=0;
@@ -72,7 +72,7 @@ public class PersoaneDao {
 
     public Optional<Persoane> findByNume(Persoane persoane) {
         try {
-            findByNumeStatement.setString(1, persoane.getNume());
+            findByNumeStatement.setString(1, persoane.getName());
             findByNumeStatement.setString(2, persoane.getPassword());
             ResultSet rs = findByNumeStatement.executeQuery(); //citesc, fac un read, nu modific baza de date
             if (rs.next()) {

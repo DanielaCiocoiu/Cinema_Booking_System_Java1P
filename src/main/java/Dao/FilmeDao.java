@@ -34,9 +34,9 @@ public class FilmeDao {
 public boolean create(Filme filme){
     try {
         createStatement.setInt(1, filme.getIdFilm());
-        createStatement.setString(2, filme.getNumeFilm());
-        createStatement.setString(3, filme.getSalaNr());
-        createStatement.setInt(4, filme.getPersoanaId());
+        createStatement.setString(2, filme.getNameFilm());
+        createStatement.setString(3, filme.getRoomNr());
+        createStatement.setInt(4, filme.getPersonId());
 
         return createStatement.executeUpdate() != 0;
     } catch (SQLException e) {

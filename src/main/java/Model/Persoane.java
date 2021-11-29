@@ -4,26 +4,26 @@ import java.util.Objects;
 
 public class Persoane {
     private int id;
-    private String nume;
+    private String name;
     private String password;
 
     public Persoane() {
     }
 
-    public Persoane(int id, String nume, String password) {
+    public Persoane(int id, String name, String password) {
         this.id = id;
-        this.nume = nume;
+        this.name = name;
         this.password = password;
     }
 
-    public Persoane(String nume, String password) {
+    public Persoane(String name, String password) {
         this.id = id;
-        this.nume = nume;
+        this.name = name;
         this.password = password;
     }
 
-    public Persoane(String nume) {
-        this.nume = nume;
+    public Persoane(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -34,8 +34,8 @@ public class Persoane {
         this.id = id;
     }
 
-    public String getNume() {
-        return nume;
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {
@@ -57,6 +57,6 @@ public class Persoane {
 
     @Override
     public String toString() {
-        return  " Nume " + nume;
+        return  " Name " + name;
     }
 }

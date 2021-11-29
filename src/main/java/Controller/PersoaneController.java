@@ -35,7 +35,7 @@ public class PersoaneController {
     }
 
     public boolean create(Persoane p) {
-        Optional<Persoane> persoanaOptional = persoanaDao.findByNume(new Persoane(p.getNume(), p.getPassword() ));
+        Optional<Persoane> persoanaOptional = persoanaDao.findByNume(new Persoane(p.getName(), p.getPassword() ));
         if (persoanaOptional.isEmpty()) {
             return persoanaDao.create(p);
         } else {

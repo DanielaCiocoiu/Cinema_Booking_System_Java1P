@@ -14,7 +14,7 @@ public class ConnectionManager {
     private Connection connection;
 
     public ConnectionManager() {
-        String url = "jdbc:mysql://localhost:3306/phpmyadmin?serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/cinema_booking?serverTimezone=UTC";
 
         try {
             connection = DriverManager.getConnection(url, "root", "");

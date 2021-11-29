@@ -1,3 +1,13 @@
+CREATE DATABASE cinema_booking;
+USE cinema_booking;
+
+CREATE TABLE `persoane` (
+  `id_pers` int(11) NOT NULL AUTO_INCREMENT,
+  `nume_persoana` varchar(20) NOT NULL,
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_pers`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `filme` (
   `id_film` int(11) NOT NULL AUTO_INCREMENT,
   `nume_film` varchar(50) NOT NULL,
@@ -6,12 +16,4 @@ CREATE TABLE `filme` (
   PRIMARY KEY (`id_film`),
   KEY `FK_pers_idx` (`persoana_id`),
   CONSTRAINT `FK_pers` FOREIGN KEY (`persoana_id`) REFERENCES `persoane` (`id_pers`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8
-
-
-CREATE TABLE `persoane` (
-  `id_pers` int(11) NOT NULL AUTO_INCREMENT,
-  `nume_persoana` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  PRIMARY KEY (`id_pers`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8;AUTO_INCREMENT=7 DEFAULT CHARSET=utf8

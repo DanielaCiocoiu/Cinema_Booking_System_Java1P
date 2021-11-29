@@ -5,16 +5,16 @@ import java.util.Objects;
 public class Filme {
 
     private int idFilm;
-    private String numeFilm;
-    private String salaNr;
-    private int persoanaId;
+    private String nameFilm;
+    private String roomNr;
+    private int personId;
 
-    public Filme(int idFilm, String numeFilm, String salaNr, int persoanaId) {
+    public Filme(int idFilm, String nameFilm, String roomNr, int persoanaId) {
 
         this.idFilm = idFilm;
-        this.numeFilm = numeFilm;
-        this.salaNr = salaNr;
-        this.persoanaId = persoanaId;
+        this.nameFilm = nameFilm;
+        this.roomNr = roomNr;
+        this.personId = persoanaId;
     }
 
     public Filme() {
@@ -28,28 +28,28 @@ public class Filme {
         this.idFilm = idFilm;
     }
 
-    public String getNumeFilm() {
-        return numeFilm;
+    public String getNameFilm() {
+        return nameFilm;
     }
 
-    public void setNumeFilm(String numeFilm) {
-        this.numeFilm = numeFilm;
+    public void setNameFilm(String nameFilm) {
+        this.nameFilm = nameFilm;
     }
 
-    public int getPersoanaId() {
-        return persoanaId;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setPersoanaId(int persoanaId) {
-        this.persoanaId = persoanaId;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
-    public String getSalaNr() {
-        return salaNr;
+    public String getRoomNr() {
+        return roomNr;
     }
 
-    public void setSalaNr(String salaNr) {
-        this.salaNr = salaNr;
+    public void setRoomNr(String roomNr) {
+        this.roomNr = roomNr;
     }
 
     @Override
@@ -67,10 +67,10 @@ public class Filme {
 
     @Override
     public String toString() {
-        return "Id rezervare: " + idFilm +
-                ", a fost rezervat filmul: " + numeFilm +
-                ", in sala: " + salaNr +
-                ", pentru persoana cu id: " +  persoanaId;
+        return "Id booking: " + idFilm +
+                ", was booked film: " + nameFilm +
+                ", in room number: " + roomNr +
+                ", for person, id: " + personId;
 
     }
 }

@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Cinema_Booking_System_Java1P" />
         <module name="Sala_cinematograf" />
       </profile>
     </annotationProcessing>
