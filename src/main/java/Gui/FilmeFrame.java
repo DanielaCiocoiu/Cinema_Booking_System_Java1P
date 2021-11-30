@@ -11,7 +11,6 @@ public class FilmeFrame extends JFrame {
 
     private JPanel mainPanel;
     private JList listaFilme;
-    private JList listaPersoane;
 
     private JButton rezervareButton;
 
@@ -57,10 +56,10 @@ public class FilmeFrame extends JFrame {
     }
 
     protected void addFilm() {
-        String nume = filmField.getText();
+        String name = filmField.getText();
         String salaNr = String.valueOf(comboSala.getSelectedItem());
         Filme film = new Filme(
-                0, nume, salaNr, persoane.getId());
+                0, name, salaNr, persoane.getId());
 
         boolean rez = FilmeController.getInstance().create(film);
         if (rez) {
@@ -72,7 +71,7 @@ public class FilmeFrame extends JFrame {
         filmField.setText("");
     }
 
-    private void displayFilm() {
+    public void displayFilm() {
             List<Filme> film = FilmeController.getInstance().findByPersoana(persoane.getId());
             model.clear();
             film.forEach(model::addElement);

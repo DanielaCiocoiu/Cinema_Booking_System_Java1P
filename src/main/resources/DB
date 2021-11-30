@@ -3,7 +3,7 @@ USE cinema_booking;
 
 CREATE TABLE `persoane` (
   `id_pers` int(11) NOT NULL AUTO_INCREMENT,
-  `nume_persoana` varchar(20) NOT NULL,
+  `person_name` varchar(20) NOT NULL,
   `password` varchar(20) NOT NULL,
   PRIMARY KEY (`id_pers`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;

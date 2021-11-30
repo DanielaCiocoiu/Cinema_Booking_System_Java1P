@@ -14,6 +14,7 @@ public class PersoaneController {
     }
 
     private PersoaneDao persoanaDao;
+    private Optional<Persoane> loggedPerson;
 
     public PersoaneController() {
         persoanaDao = new PersoaneDao(

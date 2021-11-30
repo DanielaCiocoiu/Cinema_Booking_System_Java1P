@@ -9,12 +9,12 @@ public class Filme {
     private String roomNr;
     private int personId;
 
-    public Filme(int idFilm, String nameFilm, String roomNr, int persoanaId) {
+    public Filme(int idFilm, String nameFilm, String roomNr, int personId) {
 
         this.idFilm = idFilm;
         this.nameFilm = nameFilm;
         this.roomNr = roomNr;
-        this.personId = persoanaId;
+        this.personId = personId;
     }
 
     public Filme() {

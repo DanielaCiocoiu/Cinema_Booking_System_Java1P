@@ -7,23 +7,19 @@ public class Persoane {
     private String name;
     private String password;
 
-    public Persoane() {
-    }
-
-    public Persoane(int id, String name, String password) {
+     public Persoane(int id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
     }
 
     public Persoane(String name, String password) {
-        this.id = id;
+      //  this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public Persoane(String name) {
-        this.name = name;
+    public Persoane() {
     }
 
     public int getId() {

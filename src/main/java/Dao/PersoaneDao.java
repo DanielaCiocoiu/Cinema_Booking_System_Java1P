@@ -30,7 +30,7 @@ public class PersoaneDao {
                     connection.prepareStatement("SELECT * FROM persoane ");
 
             findByNumeStatement =
-                    connection.prepareStatement("SELECT * FROM persoane WHERE nume_persoana = ? and password = ? ");
+                    connection.prepareStatement("SELECT * FROM persoane WHERE person_name = ? and password = ? ");
             deleteStatement =
                     connection.prepareStatement("DELETE FROM persoane WHERE id_pers = ?");
         } catch (SQLException e) {
@@ -59,7 +59,7 @@ public class PersoaneDao {
             while (rs.next()) {
                 Persoane p = new Persoane(
                         rs.getInt("id_pers"),
-                        rs.getString("nume_persoana"),
+                        rs.getString("person_name"),
                         rs.getString("password")
                 );
                 persoane.add(p);
@@ -77,7 +77,7 @@ public class PersoaneDao {
             ResultSet rs = findByNumeStatement.executeQuery(); //citesc, fac un read, nu modific baza de date
             if (rs.next()) {
                 return Optional.of(new Persoane(
-                                rs.getString("nume_persoana"),
+                                rs.getString("person_name"),
                                 rs.getString("password")
                         )
                 );
@@ -87,6 +87,24 @@ public class PersoaneDao {
         }
         return Optional.empty();
     }
+/*public Optional<Persoane> findByName(String username) {
+    try {
+        findByNumeStatement.setString(1, username);
+
+        ResultSet rs = findByNumeStatement.executeQuery(); //citesc, fac un read, nu modific baza de date
+        if (rs.next()) {
+            return Optional.of(new Persoane(
+                            rs.getInt("id"),
+                            rs.getString("person_name"),
+                            rs.getString("password")
+                    )
+            );
+        }
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+    return Optional.empty();
+}*/
 
     public boolean delete(int id) {
         try {

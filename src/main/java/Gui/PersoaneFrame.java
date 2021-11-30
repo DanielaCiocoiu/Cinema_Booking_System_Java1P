@@ -21,6 +21,7 @@ public class PersoaneFrame extends JFrame {
     private JLabel passwordLabel;
     private JPasswordField passwordField;
     private DefaultListModel<Persoane> model;
+    private Persoane persoane;
 
     public PersoaneFrame() {
 
@@ -30,6 +31,7 @@ public class PersoaneFrame extends JFrame {
 /*       verifică dacă ȋn baza de date este o ȋntregistrare cu usernameul
         și parola introduse. Dacă persoana exista se deschide o fereastra de tip
         „Rezervări”, dacă nu se afișază mesajul „Username-ul sau parola gresita!”*/
+
         loginButton.addActionListener(ev -> configureLoginButton());
 
 
@@ -42,6 +44,7 @@ public class PersoaneFrame extends JFrame {
                 onMouseClickedForList(e);
             }
         });
+
         displayPersons();
         setContentPane(mainPanel);
         pack();
@@ -52,23 +55,13 @@ public class PersoaneFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-
-
     private void onMouseClickedForList(MouseEvent e) {
-/*        String nume = usernameField.getText();
-        String password = passwordField.getText();*/
-
         boolean isItemSelected = PersonsList.getSelectedValue() != null;
         if (isItemSelected &&
                 e.getButton() == MouseEvent.BUTTON1 &&
                 e.getClickCount() == 2) {
             Persoane selected = (Persoane) PersonsList.getSelectedValue();
             new FilmeFrame(selected);
-/*            if (authenticateUser(nume, password) && isDigit(password) && verificPersoane(nume)) {
-                afisPersoane();
-                new FilmeFrame(selected);
-            }*/
-
         }
         if (isItemSelected &&
                 e.getButton() == MouseEvent.BUTTON3 &&
@@ -82,6 +75,47 @@ public class PersoaneFrame extends JFrame {
         }
     }
 
+    private void configureLoginButton() {
+        loginButton.addActionListener(e -> {
+            String name = usernameField.getText();
+            String password = new String(this.passwordField.getPassword());
+
+            if (!authenticateUser(name, password)) {
+                JOptionPane.showMessageDialog(null, "Invalid credentials: username null", "Mesaj", JOptionPane.ERROR_MESSAGE);
+                usernameField.setText("");
+                passwordField.setText("");
+            }
+            if (!isDigit(password)) {
+                JOptionPane.showMessageDialog(null, "Invalid credentials: password without digit", "Mesaj", JOptionPane.ERROR_MESSAGE);
+                passwordField.setText("");
+            }
+            if (checkPerson(name)) {
+                JOptionPane.showMessageDialog(null, "Invalid credentials: username already exist", "Mesaj", JOptionPane.ERROR_MESSAGE);
+                usernameField.setText("");
+            } else {
+                //deschid fereastra filme pt persoana logata
+                Persoane persoane = new Persoane(0, name, password);
+                boolean rez = PersoaneController.getInstance().create(persoane);
+                if (rez) {
+                    displayPersons();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Name already exist!");
+                    addText.setText("");
+                }
+                Persoane selected = (Persoane) PersonsList.getSelectedValue();
+               // new FilmeFrame(persoane);
+            new FilmeFrame(selected).setVisible(true);
+            }
+        });
+    }
+
+       /*Ȋn baza de date nu trebuie să existe doi utilizatori cu același nume, iar
+       parola trebuie să se termine cu o cifră
+       verifică dacă ȋn baza de date este o ȋntregistrare cu usernameul
+       și parola introduse. Dacă persoana exista se deschide o fereastra de tip
+       „Rezervări”, dacă nu se afișază mesajul „Username-ul sau parola gresita!”.*/
+
+
     protected void displayPersons() {
         List<Persoane> persoane = PersoaneController.getInstance().findAll();
         model.clear();
@@ -89,41 +123,16 @@ public class PersoaneFrame extends JFrame {
     }
 
     protected void addPerson() {
-        String nume = addText.getText();
-        String password = addText.getText();
-        Persoane p = new Persoane(0, nume, password);
-        boolean rez = PersoaneController.getInstance().create(p);
+        String name = addText.getText();
+        String password = new String(this.passwordField.getPassword());
+        Persoane persoane = new Persoane(0, name, password);
+        boolean rez = PersoaneController.getInstance().create(persoane);
         if (rez) {
             displayPersons();
         } else {
             JOptionPane.showMessageDialog(null, "Name already exist!");
             addText.setText("");
         }
-    }
-
-    /*Ȋn baza de date nu trebuie să existe doi utilizatori cu același nume, iar
-       parola trebuie să se termine cu o cifră
-       verifică dacă ȋn baza de date este o ȋntregistrare cu usernameul
-       și parola introduse. Dacă persoana exista se deschide o fereastra de tip
-       „Rezervări”, dacă nu se afișază mesajul „Username-ul sau parola gresita!”.*/
-
-    private void configureLoginButton() {
-        loginButton.addActionListener(e -> {
-            Persoane selected = (Persoane) PersonsList.getSelectedValue();
-
-            String nume = usernameField.getText();
-            String password = passwordField.getText();
-
-            if (authenticateUser(nume, password) && isDigit(password) && checkPerson(nume)) {
-
-              new FilmeFrame(selected).setVisible(true);
-
-                } else {
-                JOptionPane.showMessageDialog(null, "Invalid credentials", "Mesaj", JOptionPane.ERROR_MESSAGE);
-                passwordField.setText("");
-
-            }
-        });
     }
 
     static boolean authenticateUser(String userName, String password) {
@@ -146,11 +155,11 @@ public class PersoaneFrame extends JFrame {
         return numberPresent;
     }
 
-    static boolean checkPerson(String nume) {
+    static boolean checkPerson(String name) {
         boolean numberPresent = false;
         List<Persoane> persoane = PersoaneController.getInstance().findAll();
         for (Persoane persoane1 : persoane) {
-            if (persoane1.getName().equalsIgnoreCase(nume)) {
+            if (persoane1.getName().equalsIgnoreCase(name)) {
 
                 numberPresent = true;
             }
