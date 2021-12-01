@@ -48,7 +48,7 @@ public class PersoaneFrame extends JFrame {
         displayPersons();
         setContentPane(mainPanel);
         pack();
-        setSize(700, 700);
+        setSize(900, 700);
         setLocationRelativeTo(null);
         setVisible(true);
         setTitle("Person");
@@ -57,7 +57,7 @@ public class PersoaneFrame extends JFrame {
 
     private void onMouseClickedForList(MouseEvent e) {
         boolean isItemSelected = PersonsList.getSelectedValue() != null;
-        if (isItemSelected &&
+        if (isItemSelected && checkCredentials() &&
                 e.getButton() == MouseEvent.BUTTON1 &&
                 e.getClickCount() == 2) {
             Persoane selected = (Persoane) PersonsList.getSelectedValue();
@@ -79,32 +79,15 @@ public class PersoaneFrame extends JFrame {
         loginButton.addActionListener(e -> {
             String name = usernameField.getText();
             String password = new String(this.passwordField.getPassword());
-
-            if (!authenticateUser(name, password)) {
-                JOptionPane.showMessageDialog(null, "Invalid credentials: username null", "Mesaj", JOptionPane.ERROR_MESSAGE);
-                usernameField.setText("");
-                passwordField.setText("");
-            }
-            if (!isDigit(password)) {
-                JOptionPane.showMessageDialog(null, "Invalid credentials: password without digit", "Mesaj", JOptionPane.ERROR_MESSAGE);
-                passwordField.setText("");
-            }
-            if (checkPerson(name)) {
-                JOptionPane.showMessageDialog(null, "Invalid credentials: username already exist", "Mesaj", JOptionPane.ERROR_MESSAGE);
-                usernameField.setText("");
-            } else {
-                //deschid fereastra filme pt persoana logata
-                Persoane persoane = new Persoane(0, name, password);
-                boolean rez = PersoaneController.getInstance().create(persoane);
+            Persoane persoane = new Persoane(0, name, password);
+            boolean rez = PersoaneController.getInstance().create(persoane);
+            if (checkCredentials()) {
                 if (rez) {
-                    displayPersons();
+                   displayPersons();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Name already exist!");
+                    JOptionPane.showMessageDialog(null, "configureLoginButton wrong!");
                     addText.setText("");
                 }
-                Persoane selected = (Persoane) PersonsList.getSelectedValue();
-               // new FilmeFrame(persoane);
-            new FilmeFrame(selected).setVisible(true);
             }
         });
     }
@@ -114,7 +97,6 @@ public class PersoaneFrame extends JFrame {
        verifică dacă ȋn baza de date este o ȋntregistrare cu usernameul
        și parola introduse. Dacă persoana exista se deschide o fereastra de tip
        „Rezervări”, dacă nu se afișază mesajul „Username-ul sau parola gresita!”.*/
-
 
     protected void displayPersons() {
         List<Persoane> persoane = PersoaneController.getInstance().findAll();
@@ -128,21 +110,38 @@ public class PersoaneFrame extends JFrame {
         Persoane persoane = new Persoane(0, name, password);
         boolean rez = PersoaneController.getInstance().create(persoane);
         if (rez) {
+            if (checkCredentials()){
             displayPersons();
         } else {
             JOptionPane.showMessageDialog(null, "Name already exist!");
             addText.setText("");
         }
-    }
+    }}
 
-    static boolean authenticateUser(String userName, String password) {
-        if (userName.isEmpty() || password.isEmpty() || userName == null) {
-            return false;
-        } else {
-            return true;
+    public boolean checkCredentials() {
+        boolean check = false;
+        String name = usernameField.getText();
+        String password = new String(this.passwordField.getPassword());
+
+        if (!authenticateUser(name, password)) {
+            JOptionPane.showMessageDialog(null, "Invalid credentials: username null", "Mesaj", JOptionPane.ERROR_MESSAGE);
+            usernameField.setText("");
+            passwordField.setText("");
         }
-    }
+        if (!isDigit(password)) {
+            JOptionPane.showMessageDialog(null, "Invalid credentials: password without digit", "Mesaj", JOptionPane.ERROR_MESSAGE);
+            passwordField.setText("");
+        }
+        if (!checkPerson(name)) {
+            JOptionPane.showMessageDialog(null, "Invalid credentials: username already exist", "Mesaj", JOptionPane.ERROR_MESSAGE);
+            usernameField.setText("");
+        }else {
+            System.out.println("Password ok");
+            check = true;
+        }
+      return  check;
 
+}
     static boolean isDigit(String input) {
         char currentCharacter;
         boolean numberPresent = false;
@@ -165,5 +164,13 @@ public class PersoaneFrame extends JFrame {
             }
         }
         return numberPresent;
+    }
+
+    static boolean authenticateUser(String userName, String password) {
+        if (userName.isEmpty() || password.isEmpty() || userName == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

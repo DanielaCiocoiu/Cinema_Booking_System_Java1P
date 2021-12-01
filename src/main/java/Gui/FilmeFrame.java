@@ -21,7 +21,7 @@ public class FilmeFrame extends JFrame {
     private JComboBox comboSala;
 
     private Persoane persoane;
-
+private Filme filme;
     private DefaultListModel<Filme> model;
 
     public FilmeFrame(Persoane persoane) {
@@ -59,13 +59,13 @@ public class FilmeFrame extends JFrame {
         String name = filmField.getText();
         String salaNr = String.valueOf(comboSala.getSelectedItem());
         Filme film = new Filme(
-                0, name, salaNr, persoane.getId());
+                0, name,  salaNr, persoane.getId(), persoane.getName());
 
         boolean rez = FilmeController.getInstance().create(film);
         if (rez) {
             displayFilm();
         } else {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Error insert in DB");
         }
 
         filmField.setText("");

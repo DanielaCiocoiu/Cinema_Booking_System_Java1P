@@ -1,6 +1,7 @@
 package Dao;
 
 import Model.Filme;
+import Model.Persoane;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class FilmeDao {
 
         try {
             createStatement =
-                    connection.prepareStatement("INSERT INTO filme VALUES (?, ?, ?, ?)");
+                    connection.prepareStatement("INSERT INTO filme VALUES (?, ?, ?, ?, ?)");
             findByPersoanaStatement =
                     connection.prepareStatement("SELECT * FROM filme WHERE persoana_id = ?");
             deleteStatement =
@@ -37,6 +38,7 @@ public boolean create(Filme filme){
         createStatement.setString(2, filme.getNameFilm());
         createStatement.setString(3, filme.getRoomNr());
         createStatement.setInt(4, filme.getPersonId());
+        createStatement.setString(5, filme.getNamePerson());
 
         return createStatement.executeUpdate() != 0;
     } catch (SQLException e) {
@@ -58,7 +60,8 @@ public boolean create(Filme filme){
                         rs.getInt("id_film"),
                         rs.getString("nume_film"),
                         rs.getString("sala_nr"),
-                        rs.getInt("persoana_id")
+                        rs.getInt("persoana_id"),
+                        rs.getString("nume_persoana")
                 );
 
                 filme.add(f);
@@ -72,7 +75,7 @@ public boolean create(Filme filme){
     public boolean delete(int idFilm) {
         try {
             deleteStatement.setInt(1, idFilm);
-            return deleteStatement.executeUpdate() != 0;// fac scrieri in baza de date
+            return deleteStatement.executeUpdate() != 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

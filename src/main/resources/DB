@@ -15,5 +15,6 @@ CREATE TABLE `filme` (
   `persoana_id` int(11) NOT NULL,
   PRIMARY KEY (`id_film`),
   KEY `FK_pers_idx` (`persoana_id`),
+  `nume_persoana` varchar(50) NOT NULL,
   CONSTRAINT `FK_pers` FOREIGN KEY (`persoana_id`) REFERENCES `persoane` (`id_pers`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8;AUTO_INCREMENT=7 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8;

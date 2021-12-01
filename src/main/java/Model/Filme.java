@@ -8,16 +8,27 @@ public class Filme {
     private String nameFilm;
     private String roomNr;
     private int personId;
+    private String namePerson;
 
-    public Filme(int idFilm, String nameFilm, String roomNr, int personId) {
+    public Filme(int idFilm, String nameFilm, String roomNr, int personId, String namePerson) {
 
         this.idFilm = idFilm;
         this.nameFilm = nameFilm;
         this.roomNr = roomNr;
         this.personId = personId;
+        this.namePerson = namePerson;
     }
 
     public Filme() {
+    }
+
+
+    public String getNamePerson() {
+        return namePerson;
+    }
+
+    public void setNamePerson(String namePerson) {
+        this.namePerson = namePerson;
     }
 
     public int getIdFilm() {
@@ -70,7 +81,8 @@ public class Filme {
         return "Id booking: " + idFilm +
                 ", was booked film: " + nameFilm +
                 ", in room number: " + roomNr +
-                ", for person, id: " + personId;
+                ", for person id: " + personId +
+                ", person name: " + namePerson;
 
     }
 }
